@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using USASales.Repositories;
 
 namespace USASales.Controllers
 {
@@ -18,9 +19,12 @@ namespace USASales.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        private readonly IProductsRepository _productsRepository;
+
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IProductsRepository productsRepository)
         {
             _logger = logger;
+            _productsRepository = productsRepository;
         }
 
         [HttpGet]
@@ -34,6 +38,12 @@ namespace USASales.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("test")]
+        public async Task<string> Test()
+        {
+            return await _productsRepository.Get();
         }
     }
 }
