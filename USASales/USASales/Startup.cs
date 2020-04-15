@@ -22,6 +22,7 @@ namespace USASales
 
             services.AddTransient(_ => new DatabaseContext(Configuration.GetConnectionString("Default")));
             services.AddTransient(provider => provider.GetService<DatabaseContext>().ProductsRepository);
+            services.AddTransient(provider => provider.GetService<DatabaseContext>().TaxesRepository);
 
             services.AddSpaStaticFiles(configuration =>
             {

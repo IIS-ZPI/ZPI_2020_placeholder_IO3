@@ -39,11 +39,5 @@ namespace USASales.Controllers
             })
             .ToArray();
         }
-
-        [HttpGet("test")]
-        public async Task<string> Test()
-        {
-            return await _productsRepository.Get();
-        }
     }
 }
