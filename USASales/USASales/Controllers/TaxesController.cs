@@ -21,10 +21,16 @@ namespace USASales.Controllers
             return Json(await _taxesRepository.GetAll());
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(long id)
+        [HttpGet("{state}")]
+        public async Task<IActionResult> GetMany(string state)
         {
-            return Json(await _taxesRepository.Get(id));
+            return Json(await _taxesRepository.GetMany(state));
+        }
+
+        [HttpGet("{state}/{category}")]
+        public async Task<IActionResult> Get(string state, string category)
+        {
+            return Json(await _taxesRepository.Get(state, category));
         }
     }
 }
