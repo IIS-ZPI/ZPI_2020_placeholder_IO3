@@ -30,12 +30,14 @@ namespace USASales.Repositories
 
         public Task<IEnumerable<Tax>> GetMany(string state)
         {
-            return _connection.QueryAsync<Tax>("SELECT * FROM Taxes WHERE LOWER(State) LIKE LOWER(@state)");
+            const string sql = "SELECT * FROM Taxes WHERE LOWER(State) LIKE LOWER(@state)";
+            return _connection.QueryAsync<Tax>(sql, new { state });
         }
 
         public Task<Tax> Get(long id)
         {
-            return _connection.QuerySingleAsync<Tax>("SELECT * FROM Taxes WHERE Id = @id", new { id });
+            const string sql = "SELECT * FROM Taxes WHERE Id = @id";
+            return _connection.QuerySingleAsync<Tax>(sql, new { id });
         }
 
         public Task<Tax> Get(string state, string category)
