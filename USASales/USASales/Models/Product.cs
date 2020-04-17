@@ -7,6 +7,7 @@ namespace USASales.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public int TaxId { get; set; }
-        public decimal NetPriceUsd { get; set; }
+        public decimal PurchaseAmount { get; set; }
+        public decimal GrossPrice { get; set; }
     }
 }
