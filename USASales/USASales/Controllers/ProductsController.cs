@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.WebEncoders.Testing;
 using USASales.Models;
 using USASales.Repositories;
 
@@ -11,11 +10,12 @@ namespace USASales.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductsRepository _productsRepository;
-        private readonly ProductsService _productsService;
-        public ProductsController(IProductsRepository productsRepository, ProductsService productsService)
+        private readonly ITaxesRepository _taxesRepository;
+
+        public ProductsController(IProductsRepository productsRepository, ITaxesRepository taxesRepository)
         {
             _productsRepository = productsRepository;
-            _productsService = productsService;
+            _taxesRepository = taxesRepository;
         }
 
         [HttpGet]
@@ -41,7 +41,10 @@ namespace USASales.Controllers
         [HttpGet("test")]//TODO: REMOVE
         public async Task<IActionResult> Test()
         {
-           return Json(await _productsService.CalculatePrice(5, "Alabama", "Groceries"));
+            var product = await _productsRepository.Get(1);
+            var tax = await _taxesRepository.Get(2);
+
+            return Json(ProductsService.CalculatePrice(product, tax));
         }
     }
 }
