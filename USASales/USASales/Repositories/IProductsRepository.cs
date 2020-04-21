@@ -35,7 +35,7 @@ namespace USASales.Repositories
         public Task Add(Product product)
         {
             return _connection.ExecuteAsync(
-                "INSERT INTO Products(Name, NetPriceUsd, TaxId) VALUES(@Name, @NetPriceUsd, @TaxId)", product);
+                "INSERT INTO Products(Name, PurchaseAmount, TaxId, GrossPrice) VALUES(@Name, @PurchaseAmount, @TaxId, @GrossPrice)", product);
         }
     }
 }

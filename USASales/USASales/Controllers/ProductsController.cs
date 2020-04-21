@@ -10,9 +10,12 @@ namespace USASales.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductsRepository _productsRepository;
-        public ProductsController(IProductsRepository productsRepository)
+        private readonly ITaxesRepository _taxesRepository;
+
+        public ProductsController(IProductsRepository productsRepository, ITaxesRepository taxesRepository)
         {
             _productsRepository = productsRepository;
+            _taxesRepository = taxesRepository;
         }
 
         [HttpGet]
@@ -32,6 +35,16 @@ namespace USASales.Controllers
         public async Task<IActionResult> Get(long id)
         {
             return Json(await _productsRepository.Get(id));
+        }
+
+        //just for test
+        [HttpGet("test")]//TODO: REMOVE
+        public async Task<IActionResult> Test()
+        {
+            var product = await _productsRepository.Get(1);
+            var tax = await _taxesRepository.Get(2);
+
+            return Json(ProductsService.CalculatePrice(product, tax));
         }
     }
 }
