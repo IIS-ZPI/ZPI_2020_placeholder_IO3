@@ -49,10 +49,11 @@ steps:
     targetFolder: '/var/zpi/'
     cleanTargetFolder: true
     readyTimeout: '20000'
+    flattenFolders: true
 
 - task: SSH@0
   inputs:
     sshEndpoint: 'zpi-server'
     runOptions: 'commands'
-    commands: 'unzip publish.zip'
+    commands: '/var/zpi-deploy.sh'
     readyTimeout: '20000'
