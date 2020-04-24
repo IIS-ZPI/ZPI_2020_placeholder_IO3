@@ -55,7 +55,7 @@ steps:
   inputs:
     sshEndpoint: 'zpi-server'
     runOptions: 'commands'
-    commands: 'unzip -o /var/zpi/publish.zip'
+    commands: 'unzip -o /var/zpi/publish.zip -d /var/zpi/'
     readyTimeout: '20000'
 
 - task: SSH@0
