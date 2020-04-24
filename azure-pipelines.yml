@@ -35,3 +35,17 @@ steps:
     command: test
     projects: '**/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '-c Release -r ubuntu.18.04-x64'
+
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: 'zpi-server'
+    contents: '**'
+    targetFolder: '/var/zpi/'
+    cleanTargetFolder: true
+    readyTimeout: '20000'
