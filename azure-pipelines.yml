@@ -45,7 +45,14 @@ steps:
 - task: CopyFilesOverSSH@0
   inputs:
     sshEndpoint: 'zpi-server'
-    contents: '**'
+    contents: 'USASales/USASales/bin/Release/netcoreapp3.1/ubuntu.18.04-x64/publish.zip'
     targetFolder: '/var/zpi/'
     cleanTargetFolder: true
+    readyTimeout: '20000'
+
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'zpi-server'
+    runOptions: 'commands'
+    commands: 'unzip publish.zip'
     readyTimeout: '20000'
