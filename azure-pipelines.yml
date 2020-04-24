@@ -69,5 +69,5 @@ steps:
   inputs:
     sshEndpoint: 'zpi-server'
     runOptions: 'commands'
-    commands: 'systemctl restart zpi.service'
+    commands: 'systemctl daemon-reload; systemctl restart zpi.service'
     readyTimeout: '20000'
