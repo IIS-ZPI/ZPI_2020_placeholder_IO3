@@ -1,0 +1,73 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+- develop
+- feature/*
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    projects: '**/*.csproj'
+    arguments: '--configuration Release'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '-c Release -r ubuntu.18.04-x64'
+
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: 'zpi-server'
+    contents: 'USASales/USASales/bin/Release/netcoreapp3.1/ubuntu.18.04-x64/publish.zip'
+    targetFolder: '/var/zpi/'
+    readyTimeout: '20000'
+    flattenFolders: true
+    cleanTargetFolder: true
+
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'zpi-server'
+    runOptions: 'commands'
+    commands: 'unzip -o /var/zpi/publish.zip -d /var/zpi/'
+    readyTimeout: '20000'
+
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'zpi-server'
+    runOptions: 'commands'
+    commands: 'cp /var/appsettings.json /var/zpi/appsettings.json; cp /var/appsettings.Development.json /var/zpi/appsettings.Development.json'
+    readyTimeout: '20000'
+
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'zpi-server'
+    runOptions: 'commands'
+    commands: 'systemctl daemon-reload; systemctl restart zpi.service'
+    readyTimeout: '20000'
