@@ -37,12 +37,11 @@ namespace USASales.Controllers
             return Json(await _productsRepository.Get(id));
         }
 
-        //just for test
-        [HttpGet("test")]//TODO: REMOVE
-        public async Task<IActionResult> Test()
+        [HttpGet("{productId}/{state}")]
+        public async Task<IActionResult> GetPrice(int productId, string state)
         {
-            var product = await _productsRepository.Get(1);
-            var tax = await _taxesRepository.Get(2);
+            var product = await _productsRepository.Get(productId);
+            var tax = await _taxesRepository.Get(state, product.Category);
 
             return Json(ProductsService.CalculatePrice(product, tax));
         }

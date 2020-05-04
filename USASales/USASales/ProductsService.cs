@@ -6,12 +6,12 @@ namespace USASales
     {
         public static DetailedPrice CalculatePrice(Product product, Tax tax)
         {
-            var margin = CalculateMargin((double)product.PurchaseAmount, (double)product.GrossPrice, tax.TaxPercentage);
-            var taxValue = ((double)product.PurchaseAmount + margin) * tax.TaxPercentage * 0.01;
+            var margin = CalculateMargin((double)product.WholesalePrice, (double)product.GrossPrice, tax.TaxPercentage);
+            var taxValue = ((double)product.WholesalePrice + margin) * tax.TaxPercentage * 0.01;
 
             return new DetailedPrice
             {
-                PurchaseAmount = (double)product.PurchaseAmount,
+                WholesalePrice = (double)product.WholesalePrice,
                 Margin = margin,
                 TaxPercentage = tax.TaxPercentage,
                 TaxValue = taxValue,

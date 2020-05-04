@@ -7,22 +7,51 @@ namespace USASales.Tests
     public class ProductsServiceTests
     {
         [TestMethod]
-        public void ShouldReturnValidTaxValue()
+        public void ShouldCalculateNetPriceAndMargin()
         {
-            var product = new Product
+            var apple = new Product
             {
-                PurchaseAmount = 90,
-                GrossPrice = 100
+                Name = "Apple",
+                Category = "Groceries",
+                WholesalePrice = 0.25m,
+                GrossPrice = 1
             };
 
             var tax = new Tax
             {
-                TaxPercentage = 10
+                State = "Alabama",
+                Category = "Groceries",
+                TaxPercentage = 4
             };
 
-            var result = ProductsService.CalculatePrice(product, tax);
+            var result = ProductsService.CalculatePrice(apple, tax);
 
-            Assert.AreEqual(9.1, result.TaxValue, 0.1);
+            Assert.AreEqual(0.9615, result.NetPrice, 0.00005);
+            Assert.AreEqual(0.7115, result.Margin, 0.00005);
+        }
+
+        [TestMethod]
+        public void ShouldCalculateNetPriceAndMarginWhenTaxFree()
+        {
+            var apple = new Product
+            {
+                Name = "Apple",
+                Category = "Groceries",
+                WholesalePrice = 0.25m,
+                GrossPrice = 1
+            };
+
+            var tax = new Tax
+            {
+                State = "Alabama",
+                Category = "Groceries",
+                TaxPercentage = 0
+            };
+
+            var result = ProductsService.CalculatePrice(apple, tax);
+
+            Assert.AreEqual(1.0, result.NetPrice, 0.05);
+            Assert.AreEqual(0.75, result.Margin, 0.005);
         }
     }
 }
