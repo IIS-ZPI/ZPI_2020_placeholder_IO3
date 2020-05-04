@@ -8,5 +8,6 @@
         public double TaxPercentage { get; set; }
         public double TaxValue { get; set; }
         public double GrossPrice { get; set; }
+        public string State { get; set; }
     }
 }

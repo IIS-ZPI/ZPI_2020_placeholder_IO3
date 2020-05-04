@@ -15,7 +15,8 @@ namespace USASales
                 Margin = margin,
                 TaxPercentage = tax.TaxPercentage,
                 TaxValue = taxValue,
-                GrossPrice = (double)product.GrossPrice
+                GrossPrice = (double)product.GrossPrice,
+                State = tax.State
             };
         }
 
