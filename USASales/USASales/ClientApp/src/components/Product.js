@@ -9,18 +9,22 @@ export class Product extends Component {
 
         this.state = {
             product: {
-                name: "Test product",
-                basePrice: 15,
-                states: [
+                "product": {
+                    "id": 0,
+                    "name": "",
+                    "category": "",
+                    "wholesalePrice": 0,
+                    "grossPrice": 0
+                },
+                "priceInStates": [
                     {
-                        name: "Alabama",
-                        taxPercentage: 23,
-                        price: 15+15*0.23
-                    },
-                    {
-                        name: "Test",
-                        taxPercentage: 24,
-                        price: 15+15*0.4
+                        "wholesalePrice": 0,
+                        "margin": 0,
+                        "netPrice": 0,
+                        "taxPercentage": 0,
+                        "taxValue": 0,
+                        "grossPrice": 0,
+                        "state": ""
                     }
                 ]
             }
@@ -28,7 +32,7 @@ export class Product extends Component {
     }
 
     componentDidMount() {
-        this.populateTaxData('Alabama')
+        this.populateTaxData(this.id)
     }
 
     static renderProductTable(product) {
@@ -38,15 +42,17 @@ export class Product extends Component {
                     <tr>
                         <th>Name</th>
                         <th>Tax</th>
+                        <th>Margin</th>
                         <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {product.states.map(product =>
-                        <tr key={product.id}>
-                            <td>{product.name}</td>
-                            <td>{Number(product.taxPercentage).toFixed(2)}%</td>
-                            <td>${Number(product.price).toFixed(2)}</td>
+                    {product.priceInStates.map(state =>
+                        <tr key={state.id}>
+                            <td>{state.state}</td>
+                            <td>{Number(state.taxPercentage).toFixed(2)}%</td>
+                            <td>{Number(state.margin).toFixed(2)}</td>
+                            <td>${Number(state.netPrice).toFixed(2)}</td>
                         </tr>
                     )}
                 </tbody>
@@ -54,33 +60,25 @@ export class Product extends Component {
         );
     }
 
-    handleStateSelectionChange = selectedState => {
-        this.setState(
-            { selectedState }
-        );
-
-        this.populateTaxData(selectedState.value);
-    };
-
     render() {
         const { selectedState } = this.state;
 
         return (
             <div>
                 <div className="row">
-                    <div className="col-6"><h2>{this.state.product.name}</h2></div>
-                    <div className="col-6"><h4>Base price: {this.state.product.basePrice}$</h4></div>
+                    <div className="col-3"><h2>{this.state.product.product.name}</h2></div>
+                    <div className="col-3"><h2>{this.state.product.product.category}</h2></div>
+                    <div className="col-3"><h4>Base price: {this.state.product.product.grossPrice}$</h4></div>
+                    <div className="col-3"><h4>Base price: {this.state.product.product.wholesalePrice}$</h4></div>
                 </div>
-                
-                
                 
                 {Product.renderProductTable(this.state.product)}
             </div>
         );
     }
 
-    async populateTaxData(state) {
-        const response = await fetch('api/product/' + state);
+    async populateTaxData(id) {
+        const response = await fetch('api/products/' + id);
         const data = await response.json();
         this.setState({ product: data });
     }
