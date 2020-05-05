@@ -9,5 +9,6 @@
         public double TaxValue { get; set; }
         public double GrossPrice { get; set; }
         public string State { get; set; }
+        public double Threshold { get; set; }
     }
 }

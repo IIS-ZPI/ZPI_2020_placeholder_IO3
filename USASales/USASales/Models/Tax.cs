@@ -6,6 +6,6 @@
         public string Category { get; set; }
         public string State { get; set; }
         public float TaxPercentage { get; set; }
-        public decimal ThresholdUsd { get; set; }
+        public double ThresholdUsd { get; set; }
     }
 }

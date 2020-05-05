@@ -13,7 +13,7 @@ namespace USASales.Tests
             {
                 Name = "Apple",
                 Category = "Groceries",
-                WholesalePrice = 0.25m,
+                WholesalePrice = 0.25,
                 GrossPrice = 1
             };
 
@@ -37,7 +37,7 @@ namespace USASales.Tests
             {
                 Name = "Apple",
                 Category = "Groceries",
-                WholesalePrice = 0.25m,
+                WholesalePrice = 0.25,
                 GrossPrice = 1
             };
 
