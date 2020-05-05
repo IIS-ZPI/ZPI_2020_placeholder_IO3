@@ -51,7 +51,7 @@ export class Product extends Component {
                         <tr key={state.id}>
                             <td>{state.state}</td>
                             <td>{Number(state.taxPercentage).toFixed(2)}%</td>
-                            <td>{Number(state.margin).toFixed(2)}</td>
+                            <td>${Number(state.margin).toFixed(2)}</td>
                             <td>${Number(state.netPrice).toFixed(2)}</td>
                         </tr>
                     )}
@@ -66,10 +66,10 @@ export class Product extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-3"><h2>{this.state.product.product.name}</h2></div>
-                    <div className="col-3"><h2>{this.state.product.product.category}</h2></div>
-                    <div className="col-3"><h4>Base price: {this.state.product.product.grossPrice}$</h4></div>
-                    <div className="col-3"><h4>Base price: {this.state.product.product.wholesalePrice}$</h4></div>
+                    <div className="col-3"><h5>Product name: {this.state.product.product.name}</h5></div>
+                    <div className="col-3"><h5>Category name: {this.state.product.product.category}</h5></div>
+                    <div className="col-3"><h5>Base price: ${this.state.product.product.grossPrice}</h5></div>
+                    <div className="col-3"><h5>Wholesale price: ${this.state.product.product.wholesalePrice}</h5></div>
                 </div>
                 
                 {Product.renderProductTable(this.state.product)}
