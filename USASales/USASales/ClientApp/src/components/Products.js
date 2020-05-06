@@ -25,7 +25,7 @@ export class Products extends Component {
                         <th>Name</th>
                         <th>Category</th>
                         <th>Wholesale price</th>
-                        <th>Price</th>
+                        <th>Gross price</th>
                     </tr>
                 </thead>
                 <tbody>
