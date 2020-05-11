@@ -25,7 +25,7 @@ export class Products extends Component {
                         <th>Name</th>
                         <th>Category</th>
                         <th>Wholesale price</th>
-                        <th>Price</th>
+                        <th>Gross price</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,7 @@ export class Products extends Component {
                         <tr key={product.id}>
                             <td><Link to={"/products/" + product.id}>{product.name}</Link></td>
                             <td>{product.category}</td>
-                            <td>{Number(product.wholesalePrice).toFixed(2)}%</td>
+                            <td>${Number(product.wholesalePrice).toFixed(2)}</td>
                             <td>${Number(product.grossPrice).toFixed(2)}</td>
                         </tr>
                     )}

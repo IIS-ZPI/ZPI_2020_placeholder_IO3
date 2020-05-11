@@ -43,7 +43,7 @@ export class Product extends Component {
                         <th>Name</th>
                         <th>Tax</th>
                         <th>Margin</th>
-                        <th>Price</th>
+                        <th>Net price</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@ export class Product extends Component {
                         <tr key={state.id}>
                             <td>{state.state}</td>
                             <td>{Number(state.taxPercentage).toFixed(2)}%</td>
-                            <td>{Number(state.margin).toFixed(2)}</td>
+                            <td>${Number(state.margin).toFixed(2)}</td>
                             <td>${Number(state.netPrice).toFixed(2)}</td>
                         </tr>
                     )}
@@ -65,12 +65,16 @@ export class Product extends Component {
 
         return (
             <div>
-                <div className="row">
-                    <div className="col-3"><h2>{this.state.product.product.name}</h2></div>
-                    <div className="col-3"><h2>{this.state.product.product.category}</h2></div>
-                    <div className="col-3"><h4>Base price: {this.state.product.product.grossPrice}$</h4></div>
-                    <div className="col-3"><h4>Base price: {this.state.product.product.wholesalePrice}$</h4></div>
-                </div>
+				<h1>{this.state.product.product.name}</h1>
+				<h2>{this.state.product.product.category}</h2>
+				<div class="col mb-3">
+					<div class="row">
+						Wholesale price: ${this.state.product.product.wholesalePrice}
+					</div>
+					<div class="row">
+						Gross price: ${this.state.product.product.grossPrice}
+					</div>
+				</div>
                 
                 {Product.renderProductTable(this.state.product)}
             </div>
