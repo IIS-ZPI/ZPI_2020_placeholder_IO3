@@ -11,6 +11,7 @@ namespace USASales.Repositories
         Task<IEnumerable<Product>> GetAll();
         Task<Product> Get(long id);
         Task Add(Product product);
+        Task Delete(long id);
     }
 
     public class ProductsRepository : IProductsRepository
@@ -37,6 +38,10 @@ namespace USASales.Repositories
             const string sql =
                 "INSERT INTO Products(Name, Category, WholesalePrice, GrossPrice) VALUES(@Name, @Category, @WholesalePrice, @GrossPrice)";
             return _connection.ExecuteAsync(sql, product);
+        }
+        public Task Delete(long id)
+        {
+            return _connection.ExecuteAsync("DELETE FROM Products WHERE Id = @id", new { id });
         }
     }
 }

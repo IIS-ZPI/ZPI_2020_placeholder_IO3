@@ -57,12 +57,19 @@ namespace USASales.Controllers
         }
 
         [HttpGet("{productId}/{state}")]
-        public async Task<IActionResult> GetPrice(int productId, string state)
+        public async Task<IActionResult> GetPrice(long productId, string state)
         {
             var product = await _productsRepository.Get(productId);
             var tax = await _taxesRepository.Get(state, product.Category);
 
             return Json(ProductsService.CalculatePrice(product, tax));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(long id)
+        {
+            await _productsRepository.Delete(id);
+            return Ok();
         }
     }
 }
