@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
+import { Alert } from 'reactstrap';
 import {
     Link,
 } from 'react-router-dom';
+import './Products.css';
 
 export class Products extends Component {
     constructor(props) {
         super(props);
 
+        this.removeProduct = this.removeProduct.bind(this)
+
         this.state = {
             products: [],
+            error: "",
         }
     }
 
@@ -17,7 +21,21 @@ export class Products extends Component {
         this.populateTaxData()
     }
 
-    static renderProductsTable(products) {
+    removeProduct(event) {
+        fetch("api/products/" + event.target.id, {
+            method: "DELETE",
+        })
+        .then(response => {
+            if (!response.ok) {
+                this.setState({error: "Something went wrong, please try again later"})
+            } else {
+                window.location.reload();
+            }
+        })
+    }
+
+    renderProductsTable() {
+        var products = this.state.products;
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
@@ -26,15 +44,17 @@ export class Products extends Component {
                         <th>Category</th>
                         <th>Wholesale price</th>
                         <th>Gross price</th>
+                        <th>Remove</th>
                     </tr>
                 </thead>
                 <tbody>
                     {products.map(product =>
                         <tr key={product.id}>
-                            <td><Link to={"/products/" + product.id}>{product.name}</Link></td>
+                            <td><Link to={"/products/details/" + product.id}>{product.name}</Link></td>
                             <td>{product.category}</td>
                             <td>${Number(product.wholesalePrice).toFixed(2)}</td>
                             <td>${Number(product.grossPrice).toFixed(2)}</td>
+                            <td className="removeBtn" id={product.id} onClick={this.removeProduct}>Remove</td>
                         </tr>
                     )}
                 </tbody>
@@ -43,12 +63,18 @@ export class Products extends Component {
     }
 
     render() {
-        const { selectedState } = this.state;
+        var alert;
+
+        if (this.state.error !== "") {
+            alert = <Alert color="danger">{this.state.error}</Alert>
+        }
 
         return (
             <div>
-                <h1>Products</h1>
-                {Products.renderProductsTable(this.state.products)}
+                <div className="row"><h1>Products</h1></div>
+                {alert}  
+                    
+                {this.renderProductsTable()}
             </div>
         );
     }
