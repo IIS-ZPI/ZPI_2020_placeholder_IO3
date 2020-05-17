@@ -15,13 +15,30 @@ export class NewProduct extends Component {
                 WholesalePrice: 0.0,
                 GrossPrice: 0.0
             },
+            categories: [],
             error: "",
             success: ""
         }
     }
 
     componentDidMount() {
+        this.fetchAllCategories();
+    }
 
+    fetchAllCategories() {
+        fetch("api/categories")
+        .then(response => response.json())
+        .then(response => {
+            this.setState({
+                categories: response
+            })
+        })
+        .catch(error => {
+            this.setState({
+                error: "Couldn't fetch data from api/categories",
+                success: ""
+            })
+        })
     }
 
     handleChange(event) {
@@ -47,7 +64,7 @@ export class NewProduct extends Component {
             },
             body: JSON.stringify({
                 Name: newProduct.Name,
-                Category: newProduct.Category,
+                CategoryId: parseInt(newProduct.Category),
                 WholesalePrice: parseFloat(newProduct.WholesalePrice),
                 GrossPrice: parseFloat(newProduct.GrossPrice),
             })
@@ -65,7 +82,8 @@ export class NewProduct extends Component {
     }
 
     renderForm() {
-        var product = this.state.product
+        var product = this.state.product;
+        var categories = this.state.categories.map(c => <option value={c.id}>{c.name}</option>);
         
         return (
             <Form onSubmit={this.handleSubmit}>
@@ -75,7 +93,9 @@ export class NewProduct extends Component {
                 </FormGroup>
                 <FormGroup>
                     <Label>Category:</Label>
-                    <Input type="text" name="Category" value={product.Category.value} onChange={this.handleChange} />
+                    <Input  type="select" name="Category" value={product.Category.value} onChange={this.handleChange}>
+                        {categories}
+                    </Input>
                 </FormGroup>
                 <FormGroup>
                     <Label>Wholesale price:</Label>
