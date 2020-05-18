@@ -58,7 +58,7 @@ namespace USASales.Repositories
 
         public Task Update(Product product)
         {
-            const string sql = "Update Products SET Name=@Name, Category=@Category, WholesalePrice=@WholesalePrice, GrossPrice=@GrossPrice WHERE Id=@Id";
+            const string sql = "Update Products SET Name=@Name, CategoryId=@CategoryId, WholesalePrice=@WholesalePrice, GrossPrice=@GrossPrice WHERE Id=@Id";
             return _connection.ExecuteAsync(sql, product);
         }
     }
