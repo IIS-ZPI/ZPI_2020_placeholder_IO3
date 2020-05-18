@@ -44,6 +44,7 @@ export class Products extends Component {
                         <th>Category</th>
                         <th>Wholesale price</th>
                         <th>Gross price</th>
+                        <th>Edit</th>
                         <th>Remove</th>
                     </tr>
                 </thead>
@@ -54,6 +55,7 @@ export class Products extends Component {
                             <td>{product.category}</td>
                             <td>${Number(product.wholesalePrice).toFixed(2)}</td>
                             <td>${Number(product.grossPrice).toFixed(2)}</td>
+                            <td className="editBtn"><Link to={"/products/edit/" + product.id}>Edit</Link></td>
                             <td className="removeBtn" id={product.id} onClick={this.removeProduct}>Remove</td>
                         </tr>
                     )}

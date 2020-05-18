@@ -6,6 +6,7 @@ import { Taxes } from './components/Taxes';
 import { Products } from './components/Products';
 import { Product } from './components/Product';
 import { NewProduct } from './components/NewProduct';
+import { EditProduct } from './components/EditProduct';
 
 import './custom.css'
 
@@ -19,6 +20,7 @@ export default class App extends Component {
         <Route path='/taxes' component={Taxes} />
         <Route exact path='/products' component={Products} />
         <Route path='/products/add' component={NewProduct} />
+        <Route path='/products/edit/:id' component={EditProduct} />
         <Route path='/products/details/:id' component={Product} />
       </Layout>
     );
