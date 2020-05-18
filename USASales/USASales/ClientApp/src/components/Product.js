@@ -67,11 +67,11 @@ export class Product extends Component {
             <div>
 				<h1>{this.state.product.product.name}</h1>
 				<h2>{this.state.product.product.category}</h2>
-				<div class="col mb-3">
-					<div class="row">
+				<div className="col mb-3">
+					<div className="row">
 						Wholesale price: ${this.state.product.product.wholesalePrice}
 					</div>
-					<div class="row">
+					<div className="row">
 						Gross price: ${this.state.product.product.grossPrice}
 					</div>
 				</div>

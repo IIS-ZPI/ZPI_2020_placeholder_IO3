@@ -25,6 +25,7 @@ namespace USASales
             services.AddTransient(provider => provider.GetService<DatabaseContext>().ProductsRepository);
             services.AddTransient(provider => provider.GetService<DatabaseContext>().TaxesRepository);
             services.AddTransient(provider => provider.GetService<DatabaseContext>().StatesRepository);
+            services.AddTransient(provider => provider.GetService<DatabaseContext>().CategoriesRepository);
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
