@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using USASales.Models;
@@ -69,6 +70,22 @@ namespace USASales.Controllers
         public async Task<IActionResult> DeleteProduct(long id)
         {
             await _productsRepository.Delete(id);
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(Product product)
+        {
+            try
+            {
+                await _productsRepository.Update(product);
+            }
+
+            catch (Exception)
+            {
+                throw new ArgumentException();
+            }
+
             return Ok();
         }
     }

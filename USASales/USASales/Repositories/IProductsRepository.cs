@@ -13,6 +13,7 @@ namespace USASales.Repositories
         Task<Product> Get(long id);
         Task Add(Product product);
         Task Delete(long id);
+        Task Update(Product product);
     }
 
     public class ProductsRepository : IProductsRepository
@@ -53,6 +54,12 @@ namespace USASales.Repositories
         public Task Delete(long id)
         {
             return _connection.ExecuteAsync("DELETE FROM Products WHERE Id = @id", new { id });
+        }
+
+        public Task Update(Product product)
+        {
+            const string sql = "Update Products SET Name=@Name, Category=@Category, WholesalePrice=@WholesalePrice, GrossPrice=@GrossPrice WHERE Id=@Id";
+            return _connection.ExecuteAsync(sql, product);
         }
     }
 }
