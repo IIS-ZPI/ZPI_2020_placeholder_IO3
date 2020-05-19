@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -21,10 +22,13 @@ namespace USASales
         {
             services.AddControllersWithViews();
 
+            services.AddAutoMapper(x => x.AddProfile(typeof(MappingProfile)), typeof(Startup));
+
             services.AddTransient(_ => new DatabaseContext(Configuration.GetConnectionString("Default")));
             services.AddTransient(provider => provider.GetService<DatabaseContext>().ProductsRepository);
             services.AddTransient(provider => provider.GetService<DatabaseContext>().TaxesRepository);
             services.AddTransient(provider => provider.GetService<DatabaseContext>().StatesRepository);
+            services.AddTransient(provider => provider.GetService<DatabaseContext>().CategoriesRepository);
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";

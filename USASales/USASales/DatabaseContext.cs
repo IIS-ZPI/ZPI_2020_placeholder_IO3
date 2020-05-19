@@ -16,6 +16,7 @@ namespace USASales
         public IProductsRepository ProductsRepository => new ProductsRepository(_connection);
         public ITaxesRepository TaxesRepository => new TaxesRepository(_connection);
         public IStatesRepository StatesRepository => new StatesRepository(_connection);
+        public ICategoriesRepository CategoriesRepository => new CategoriesRepository(_connection);
 
         public void Dispose()
         {

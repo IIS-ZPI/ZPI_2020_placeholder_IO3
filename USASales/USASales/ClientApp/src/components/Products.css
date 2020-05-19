@@ -1,0 +1,8 @@
+.removeBtn {
+    color: red;
+    cursor: pointer;
+}
+
+.removeBtn:hover {
+    text-decoration: underline;
+}
