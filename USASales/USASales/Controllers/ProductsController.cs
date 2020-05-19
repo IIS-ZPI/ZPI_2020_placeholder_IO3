@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using USASales.Models;
+using USASales.Models.Dto;
 using USASales.Repositories;
 
 namespace USASales.Controllers
@@ -14,12 +16,14 @@ namespace USASales.Controllers
         private readonly IProductsRepository _productsRepository;
         private readonly ITaxesRepository _taxesRepository;
         private readonly IStatesRepository _statesRepository;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IProductsRepository productsRepository, ITaxesRepository taxesRepository, IStatesRepository statesRepository)
+        public ProductsController(IProductsRepository productsRepository, ITaxesRepository taxesRepository, IStatesRepository statesRepository, IMapper mapper)
         {
             _productsRepository = productsRepository;
             _taxesRepository = taxesRepository;
             _statesRepository = statesRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -29,8 +33,10 @@ namespace USASales.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Product product)
+        public async Task<IActionResult> Add(ProductDto productDto)
         {
+            var product = _mapper.Map<Product>(productDto);
+
             await _productsRepository.Add(product);
             return Ok();
         }
@@ -74,16 +80,16 @@ namespace USASales.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(Product product)
+        public async Task<IActionResult> UpdateProduct(ProductDto productDto)
         {
             try
             {
+                var product = _mapper.Map<Product>(productDto);
                 await _productsRepository.Update(product);
             }
-
             catch (Exception)
             {
-                throw new ArgumentException();
+                return BadRequest();
             }
 
             return Ok();

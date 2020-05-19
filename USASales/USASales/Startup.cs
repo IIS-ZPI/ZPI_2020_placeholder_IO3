@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -20,6 +21,8 @@ namespace USASales
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddAutoMapper(x => x.AddProfile(typeof(MappingProfile)), typeof(Startup));
 
             services.AddTransient(_ => new DatabaseContext(Configuration.GetConnectionString("Default")));
             services.AddTransient(provider => provider.GetService<DatabaseContext>().ProductsRepository);

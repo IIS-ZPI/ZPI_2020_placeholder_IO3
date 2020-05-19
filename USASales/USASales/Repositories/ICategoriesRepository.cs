@@ -9,6 +9,7 @@ namespace USASales.Repositories
     public interface ICategoriesRepository
     {
         Task<IEnumerable<Category>> GetCategoriesNames();
+        bool IsIdValid(int id);
     }
 
     public class CategoriesRepository : ICategoriesRepository
@@ -23,6 +24,12 @@ namespace USASales.Repositories
         public Task<IEnumerable<Category>> GetCategoriesNames()
         {
             return _connection.QueryAsync<Category>("SELECT * FROM Categories");
+        }
+
+        public bool IsIdValid(int id)
+        {
+            const string sql = "SELECT COUNT(*) FROM Categories WHERE Id = @Id";
+            return _connection.QuerySingleOrDefault<int>(sql, new { id }) != 0;
         }
     }
 }
