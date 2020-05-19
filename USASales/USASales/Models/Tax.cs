@@ -4,6 +4,7 @@
     {
         public long Id { get; set; }
         public string Category { get; set; }
+        public string CategoryId { get; set; }
         public string State { get; set; }
         public float TaxPercentage { get; set; }
         public double ThresholdUsd { get; set; }
