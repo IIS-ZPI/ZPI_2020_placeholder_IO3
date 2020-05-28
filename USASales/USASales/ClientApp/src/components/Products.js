@@ -45,7 +45,7 @@ export class Products extends Component {
             data.sort((a,b) => a[sortKey].localeCompare(b[sortKey]))
         }
         this.setState({data})
-      }
+    }
 
     renderProductsTable() {
         var products = this.state.products;
@@ -53,10 +53,10 @@ export class Products extends Component {
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th onClick={e => this.onSort(e, 'name')}>Name <FontAwesomeIcon icon={faSortDown} /></th>
-                        <th onClick={e => this.onSort(e, 'category')}>Category <FontAwesomeIcon icon={faSortDown} /></th>
-                        <th onClick={e => this.onSort(e, 'wholesalePrice')}>Wholesale price <FontAwesomeIcon icon={faSortDown} /></th>
-                        <th onClick={e => this.onSort(e, 'grossPrice')}>Gross price <FontAwesomeIcon icon={faSortDown} /></th>
+                        <th onClick={e => this.onSort(e, 'name')}>Name <FontAwesomeIcon icon={faSortDown}  className="clickable" /></th>
+                        <th onClick={e => this.onSort(e, 'category')}>Category <FontAwesomeIcon icon={faSortDown}  className="clickable" /></th>
+                        <th onClick={e => this.onSort(e, 'wholesalePrice')}>Wholesale price <FontAwesomeIcon icon={faSortDown}  className="clickable" /></th>
+                        <th onClick={e => this.onSort(e, 'grossPrice')}>Gross price <FontAwesomeIcon icon={faSortDown}  className="clickable" /></th>
                         <th>Edit</th>
                         <th>Remove</th>
                     </tr>
