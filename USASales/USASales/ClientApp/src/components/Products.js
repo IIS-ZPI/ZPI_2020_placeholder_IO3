@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Alert } from 'reactstrap';
+import { faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     Link,
 } from 'react-router-dom';
@@ -10,6 +12,7 @@ export class Products extends Component {
         super(props);
 
         this.removeProduct = this.removeProduct.bind(this)
+        this.onSort = this.onSort.bind(this)
 
         this.state = {
             products: [],
@@ -34,16 +37,26 @@ export class Products extends Component {
         })
     }
 
+    onSort(event, sortKey){
+        const data = this.state.products;
+        if (typeof data[0][sortKey] == "number") {
+            data.sort((a,b) => a[sortKey] - b[sortKey]);
+        } else {
+            data.sort((a,b) => a[sortKey].localeCompare(b[sortKey]))
+        }
+        this.setState({data})
+      }
+
     renderProductsTable() {
         var products = this.state.products;
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Wholesale price</th>
-                        <th>Gross price</th>
+                        <th onClick={e => this.onSort(e, 'name')}>Name <FontAwesomeIcon icon={faSortDown} /></th>
+                        <th onClick={e => this.onSort(e, 'category')}>Category <FontAwesomeIcon icon={faSortDown} /></th>
+                        <th onClick={e => this.onSort(e, 'wholesalePrice')}>Wholesale price <FontAwesomeIcon icon={faSortDown} /></th>
+                        <th onClick={e => this.onSort(e, 'grossPrice')}>Gross price <FontAwesomeIcon icon={faSortDown} /></th>
                         <th>Edit</th>
                         <th>Remove</th>
                     </tr>
