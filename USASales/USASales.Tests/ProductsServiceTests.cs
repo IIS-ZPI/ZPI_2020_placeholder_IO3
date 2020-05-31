@@ -7,7 +7,7 @@ namespace USASales.Tests
     public class ProductsServiceTests
     {
         [TestMethod]
-        public void ShouldCalculateNetPriceAndMargin()
+        public void Should_Calculate_Net_Price_And_Margin()
         {
             var apple = new Product
             {
@@ -24,14 +24,14 @@ namespace USASales.Tests
                 TaxPercentage = 4
             };
 
-            var result = ProductsService.CalculatePrice(apple, tax);
+            var result = ProductsService.CalculatePrice(apple, tax, 1);
 
             Assert.AreEqual(0.9615, result.NetPrice, 0.00005);
             Assert.AreEqual(0.7115, result.Margin, 0.00005);
         }
 
         [TestMethod]
-        public void ShouldCalculateNetPriceAndMarginWhenTaxFree()
+        public void Should_Calculate_Net_Price_And_Margin_When_Tax_Free()
         {
             var apple = new Product
             {
@@ -48,14 +48,14 @@ namespace USASales.Tests
                 TaxPercentage = 0
             };
 
-            var result = ProductsService.CalculatePrice(apple, tax);
+            var result = ProductsService.CalculatePrice(apple, tax, 1);
 
             Assert.AreEqual(1.0, result.NetPrice, 0.05);
             Assert.AreEqual(0.75, result.Margin, 0.005);
         }
 
         [TestMethod]
-        public void ShouldCalculateNetPriceAndMarginWhenAboveThreshold()
+        public void Should_Calculate_Net_Price_And_Margin_When_Above_Threshold()
         {
             var shirt = new Product
             {
@@ -73,7 +73,7 @@ namespace USASales.Tests
                 ThresholdUsd = 110
             };
 
-            var result = ProductsService.CalculatePrice(shirt, tax);
+            var result = ProductsService.CalculatePrice(shirt, tax, 1);
 
             Assert.AreEqual(144.23, result.NetPrice, 0.05);
             Assert.AreEqual(19.23, result.Margin, 0.005);
@@ -81,7 +81,7 @@ namespace USASales.Tests
         }
 
         [TestMethod]
-        public void ShouldCalculateNetPriceAndMarginWhenBelowThreshold()
+        public void Should_Calculate_Net_Price_And_Margin_When_Below_Threshold()
         {
             var shirt = new Product
             {
@@ -99,7 +99,7 @@ namespace USASales.Tests
                 ThresholdUsd = 110
             };
 
-            var result = ProductsService.CalculatePrice(shirt, tax);
+            var result = ProductsService.CalculatePrice(shirt, tax, 1);
 
             Assert.AreEqual(100, result.NetPrice, 0.05);
             Assert.AreEqual(10, result.Margin, 0.005);
