@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
+import { faSort } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './../custom.css';
 
 export class Product extends Component {
     constructor(props) {
         super(props);
 
         this.id = this.props.match.params.id;
+        this.onSort = this.onSort.bind(this)
 
         this.state = {
             product: {
@@ -27,7 +31,13 @@ export class Product extends Component {
                         "state": ""
                     }
                 ]
-            }
+            },
+            tableSort: [
+                {'state': 0},
+                {'taxPercentage': 0},
+                {'margin': 0},
+                {'netPrice': 0},
+            ]
         }
     }
 
@@ -35,15 +45,38 @@ export class Product extends Component {
         this.populateTaxData(this.id)
     }
 
-    static renderProductTable(product) {
+    onSort(event, sortKey, direction){
+        const data = this.state.product.priceInStates;
+        const tableSort = this.state.tableSort;
+
+        if (direction == 'asc') {
+            if (typeof data[0][sortKey] == "number") {
+                data.sort((a,b) => a[sortKey] - b[sortKey]);
+            } else {
+                data.sort((a,b) => a[sortKey].localeCompare(b[sortKey]))
+            }
+            tableSort[sortKey] = 1;
+        } else {
+            if (typeof data[0][sortKey] == "number") {
+                data.sort((a,b) => a[sortKey] - b[sortKey]).reverse();
+            } else {
+                data.sort((a,b) => a[sortKey].localeCompare(b[sortKey])).reverse()
+            }
+            tableSort[sortKey] = 0;
+        }
+        this.setState({data})
+    }
+
+    renderProductTable() {
+        const product = this.state.product;
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Tax</th>
-                        <th>Margin</th>
-                        <th>Net price</th>
+                        <th>Name <FontAwesomeIcon icon={faSort} className="clickable" onClick={e => this.onSort(e, 'state', this.state.tableSort['state'] ? 'desc' : 'asc')} /></th>
+                        <th>Tax <FontAwesomeIcon icon={faSort} className="clickable" onClick={e => this.onSort(e, 'taxPercentage', this.state.tableSort['taxPercentage'] ? 'desc' : 'asc')} /></th>
+                        <th>Margin <FontAwesomeIcon icon={faSort} className="clickable" onClick={e => this.onSort(e, 'margin', this.state.tableSort['margin'] ? 'desc' : 'asc')} /></th>
+                        <th>Net price <FontAwesomeIcon icon={faSort} className="clickable" onClick={e => this.onSort(e, 'netPrice', this.state.tableSort['netPrice'] ? 'desc' : 'asc')} /></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,7 +109,7 @@ export class Product extends Component {
 					</div>
 				</div>
                 
-                {Product.renderProductTable(this.state.product)}
+                {this.renderProductTable()}
             </div>
         );
     }

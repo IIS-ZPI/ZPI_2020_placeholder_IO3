@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Alert } from 'reactstrap';
-import { faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { faSort } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     Link,
 } from 'react-router-dom';
 import './Products.css';
+import './../custom.css';
 
 export class Products extends Component {
     constructor(props) {
@@ -17,6 +18,12 @@ export class Products extends Component {
         this.state = {
             products: [],
             error: "",
+            tableSort: [
+                {'name': 0},
+                {'category': 0},
+                {'wholesalePrice': 0},
+                {'grossPrice': 0},
+            ]
         }
     }
 
@@ -37,12 +44,24 @@ export class Products extends Component {
         })
     }
 
-    onSort(event, sortKey){
+    onSort(event, sortKey, direction){
         const data = this.state.products;
-        if (typeof data[0][sortKey] == "number") {
-            data.sort((a,b) => a[sortKey] - b[sortKey]);
+        const tableSort = this.state.tableSort;
+
+        if (direction == 'asc') {
+            if (typeof data[0][sortKey] == "number") {
+                data.sort((a,b) => a[sortKey] - b[sortKey]);
+            } else {
+                data.sort((a,b) => a[sortKey].localeCompare(b[sortKey]))
+            }
+            tableSort[sortKey] = 1;
         } else {
-            data.sort((a,b) => a[sortKey].localeCompare(b[sortKey]))
+            if (typeof data[0][sortKey] == "number") {
+                data.sort((a,b) => a[sortKey] - b[sortKey]).reverse();
+            } else {
+                data.sort((a,b) => a[sortKey].localeCompare(b[sortKey])).reverse()
+            }
+            tableSort[sortKey] = 0;
         }
         this.setState({data})
     }
@@ -53,10 +72,22 @@ export class Products extends Component {
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th onClick={e => this.onSort(e, 'name')}>Name <FontAwesomeIcon icon={faSortDown}  className="clickable" /></th>
-                        <th onClick={e => this.onSort(e, 'category')}>Category <FontAwesomeIcon icon={faSortDown}  className="clickable" /></th>
-                        <th onClick={e => this.onSort(e, 'wholesalePrice')}>Wholesale price <FontAwesomeIcon icon={faSortDown}  className="clickable" /></th>
-                        <th onClick={e => this.onSort(e, 'grossPrice')}>Gross price <FontAwesomeIcon icon={faSortDown}  className="clickable" /></th>
+                        <th>
+                            Name 
+                            <FontAwesomeIcon icon={faSort} className="clickable" onClick={e => this.onSort(e, 'name', this.state.tableSort['name'] ? 'desc' : 'asc')} />
+                        </th>
+                        <th>
+                            Category 
+                            <FontAwesomeIcon icon={faSort} className="clickable" onClick={e => this.onSort(e, 'category', this.state.tableSort['category'] ? 'desc' : 'asc')} />
+                        </th>
+                        <th>
+                            Wholesale price 
+                            <FontAwesomeIcon icon={faSort} className="clickable" onClick={e => this.onSort(e, 'wholesalePrice', this.state.tableSort['wholesalePrice'] ? 'desc' : 'asc')} />
+                        </th>
+                        <th>
+                            Gross price 
+                            <FontAwesomeIcon icon={faSort} className="clickable" onClick={e => this.onSort(e, 'grossPrice', this.state.tableSort['grossPrice'] ? 'desc' : 'asc')} />
+                        </th>
                         <th>Edit</th>
                         <th>Remove</th>
                     </tr>
@@ -89,7 +120,7 @@ export class Products extends Component {
                 <div className="row"><h1>Products</h1></div>
                 {alert}  
                     
-                {this.renderProductsTable()}
+                {this.renderProductsTable()}                
             </div>
         );
     }
