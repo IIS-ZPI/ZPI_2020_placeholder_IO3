@@ -8,6 +8,7 @@ export class Product extends Component {
         this.id = this.props.match.params.id;
 
         this.state = {
+			quantity: 1,
             product: {
                 "product": {
                     "id": 0,
@@ -29,10 +30,12 @@ export class Product extends Component {
                 ]
             }
         }
+		
+		this.handleTaxChange = this.handleTaxChange.bind(this);
     }
 
     componentDidMount() {
-        this.populateTaxData(this.id)
+        this.populateTaxData(this.id, 1)
     }
 
     static renderProductTable(product) {
@@ -59,6 +62,11 @@ export class Product extends Component {
             </table>
         );
     }
+	
+	handleTaxChange(e) {
+		this.setState({quantity: e.target.value});
+		this.populateTaxData(this.id, e.target.value);
+	}
 
     render() {
         const { selectedState } = this.state;
@@ -76,13 +84,16 @@ export class Product extends Component {
 					</div>
 				</div>
                 
+				<div class="form-row">
+					Show prices in states for <input type="number" value={this.state.quantity} min="1" class="form-control" onChange={this.handleTaxChange} /> products
+				</div>
                 {Product.renderProductTable(this.state.product)}
             </div>
         );
     }
 
-    async populateTaxData(id) {
-        const response = await fetch('api/products/' + id);
+    async populateTaxData(id, quantity) {
+        const response = await fetch('api/products/' + id + "/" + quantity);
         const data = await response.json();
         this.setState({ product: data });
     }

@@ -41,9 +41,11 @@ namespace USASales.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(long id)
+        [HttpGet("{id}/{amount}")]
+        public async Task<IActionResult> Get(long id, int amount)
         {
+            if (amount < 1) return BadRequest();
+
             var product = await _productsRepository.Get(id);
             var prices = new List<DetailedPrice>();
 
@@ -51,7 +53,7 @@ namespace USASales.Controllers
             foreach (var state in states)
             {
                 var tax = await _taxesRepository.Get(state.Name, product.Category);
-                prices.Add(ProductsService.CalculatePrice(product, tax, 1));
+                prices.Add(ProductsService.CalculatePrice(product, tax, amount));
             }
 
             var detailedProduct = new DetailedProduct
