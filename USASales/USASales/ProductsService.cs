@@ -1,5 +1,4 @@
-﻿using System.Drawing.Printing;
-using USASales.Models;
+﻿using USASales.Models;
 
 namespace USASales
 {
