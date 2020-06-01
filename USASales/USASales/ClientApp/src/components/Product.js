@@ -12,6 +12,7 @@ export class Product extends Component {
         this.onSort = this.onSort.bind(this)
 
         this.state = {
+			quantity: 1,
             product: {
                 "product": {
                     "id": 0,
@@ -39,10 +40,12 @@ export class Product extends Component {
                 {'netPrice': 0},
             ]
         }
+		
+		this.handleTaxChange = this.handleTaxChange.bind(this);
     }
 
     componentDidMount() {
-        this.populateTaxData(this.id)
+        this.populateTaxData(this.id, 1)
     }
 
     onSort(event, sortKey, direction){
@@ -92,30 +95,38 @@ export class Product extends Component {
             </table>
         );
     }
+	
+	handleTaxChange(e) {
+		this.setState({quantity: e.target.value});
+		this.populateTaxData(this.id, e.target.value);
+	}
 
     render() {
         const { selectedState } = this.state;
 
         return (
             <div>
-				<h1>{this.state.product.product.name}</h1>
-				<h2>{this.state.product.product.category}</h2>
-				<div className="col mb-3">
-					<div className="row">
-						Wholesale price: ${this.state.product.product.wholesalePrice}
-					</div>
-					<div className="row">
-						Gross price: ${this.state.product.product.grossPrice}
-					</div>
-				</div>
-                
-                {this.renderProductTable()}
+              <h1>{this.state.product.product.name}</h1>
+              <h2>{this.state.product.product.category}</h2>
+              <div className="col mb-3">
+                <div className="row">
+                  Wholesale price: ${this.state.product.product.wholesalePrice}
+                </div>
+                <div className="row">
+                  Gross price: ${this.state.product.product.grossPrice}
+                </div>
+              </div>
+
+              <div class="form-row">
+                Show prices in states for <input type="number" value={this.state.quantity} min="1" class="form-control" onChange={this.handleTaxChange} /> products
+              </div>
+                    {this.renderProductTable()}
             </div>
         );
     }
 
-    async populateTaxData(id) {
-        const response = await fetch('api/products/' + id);
+    async populateTaxData(id, quantity) {
+        const response = await fetch('api/products/' + id + "/" + quantity);
         const data = await response.json();
         this.setState({ product: data });
     }
