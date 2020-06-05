@@ -41,6 +41,28 @@ namespace USASales.Controllers
             return Ok();
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(long id)
+        {
+            var product = await _productsRepository.Get(id);
+            var prices = new List<DetailedPrice>();
+
+            var states = await _statesRepository.GetAll();
+            foreach (var state in states)
+            {
+                var tax = await _taxesRepository.Get(state.Name, product.Category);
+                prices.Add(ProductsService.CalculatePrice(product, tax, 1));
+            }
+
+            var detailedProduct = new DetailedProduct
+            {
+                Product = product,
+                PriceInStates = prices
+            };
+
+            return Json(detailedProduct);
+        }
+
         [HttpGet("{id}/{amount}")]
         public async Task<IActionResult> Get(long id, int amount)
         {

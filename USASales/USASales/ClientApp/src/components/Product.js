@@ -118,7 +118,7 @@ export class Product extends Component {
               </div>
 
               <div class="form-row">
-                Show prices in states for <input type="number" value={this.state.quantity} min="1" class="form-control" onChange={this.handleTaxChange} /> products
+                Show prices in states for product quantity: <input type="number" value={this.state.quantity} min="1" class="form-control" onChange={this.handleTaxChange} />
               </div>
                     {this.renderProductTable()}
             </div>
