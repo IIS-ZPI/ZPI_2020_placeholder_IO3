@@ -106,7 +106,7 @@ export class NewProduct extends Component {
                     <Input type="number" name="GrossPrice" value={product.GrossPrice.value} onChange={this.handleChange} />
                 </FormGroup>
 
-                <Button onClick={this.handleSubmit}>Add</Button>
+                <Button style={{color: "yellow", backgroundColor: "red"}} onClick={this.handleSubmit}>Add</Button>
             </Form>
         );
     }
